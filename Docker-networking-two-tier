@@ -1,0 +1,102 @@
+# Docker Networking and Inter-Container Communication
+
+## 1. Overview
+Docker networking enables communication between containers running on the same network. This is essential for multi-container applications like web apps and databases to interact seamlessly.
+
+## 2. Creating a Custom Docker Network
+To create a custom network named `my_network`, run:
+```bash
+docker network create my_network
+```
+
+## 3. Running Containers on the Custom Network
+We deploy two containers (a sample application and a MySQL database) on the custom network to establish inter-container communication.
+
+### Running the Application Container
+```bash
+docker run -d --name sample-app --network my_network <your-username>/sample-app:v1.0
+```
+
+### Running the MySQL Database Container
+```bash
+docker run -d --name my-db --network my_network -e MYSQL_ROOT_PASSWORD=root mysql:latest
+```
+
+## 4. Verifying Running Containers
+```bash
+docker ps
+```
+**Output:**
+```
+CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+fb2b3fb0ff22   flash-app-image:latest   "python app.py"          10 minutes ago   Up 8 minutes    0.0.0.0:5000->5000/tcp, :::5000->5000/tcp              flash-app
+6f0c40efe50b   mysql:latest             "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   mysql
+```
+
+## 5. Stopping and Removing Containers
+To stop the running containers:
+```bash
+docker stop fb2 6f0c
+```
+Verify that no containers are running:
+```bash
+docker ps
+```
+
+## 6. Listing Docker Images
+```bash
+docker images
+```
+**Output:**
+```
+REPOSITORY        TAG        IMAGE ID       CREATED          SIZE
+flash-app-image   latest     6db94a41e403   17 minutes ago   391MB
+mysql             latest     5568fddd4f66   6 weeks ago      797MB
+python            3.9-slim   1a47c1aaa88f   3 months ago     126MB
+```
+
+## 7. Checking Disk Usage
+```bash
+df -h
+```
+**Output:**
+```
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root        15G  5.2G  9.2G  37% /
+tmpfs           479M     0  479M   0% /dev/shm
+tmpfs           192M  892K  191M   1% /run
+tmpfs           5.0M     0  5.0M   0% /run/lock
+/dev/xvda15     105M  6.1M   99M   6% /boot/efi
+tmpfs            96M  4.0K   96M   1% /run/user/1000
+```
+
+## 8. Listing Docker Volumes
+```bash
+docker volume ls
+```
+**Output:**
+```
+DRIVER    VOLUME NAME
+local     565f685535756672f51fc4b6c0b8a091f395585937e3ef8ce2081f57da08b830
+local     MYSQL_DATA
+local     e8d3809e5f8bd4de998e3373c919ddf3e4763600c5c2abc8da12d73ad231f40b
+local     mysql-data-flask-app
+local     mysql_data
+```
+
+## 9. Listing Docker Networks
+```bash
+docker network ls
+```
+**Output:**
+```
+NETWORK ID     NAME       DRIVER    SCOPE
+5c5014eee24e   bridge     bridge    local
+a10c3a563ae8   host       host      local
+74c8b1401dad   none       null      local
+2fd9b08ac316   two-tier   bridge    local
+```
+
+## 10. Conclusion
+By setting up a custom Docker network, we enable inter-container communication without exposing unnecessary ports to the host. This approach ensures security, scalability, and efficient networking for containerized applications.
+
