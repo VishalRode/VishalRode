@@ -1,8 +1,8 @@
 # 👋 Hi, I'm Vishal Rode  
 
 🚀 About Me  
-- 💻 I'm a **Java Developer** with expertise in **Spring Boot** and backend technologies.  
-- 📊 Currently working as a **Technical Support Engineer**, focusing on **monitoring, AWS Cloud, Datadog, and Jenkins**.  
+- 💻 I'm DevOps Engineer.
+- 📊 Currently working as a **Technical Support Engineer**, focusing on **AWS Cloud, Datadog, and Jenkins**.  
 - 🔧 Previously worked as an **Oracle DBA** for 3 years in an MNC.  
 - 🎯 Passionate about **DevOps, SRE, and automation**.  
 
